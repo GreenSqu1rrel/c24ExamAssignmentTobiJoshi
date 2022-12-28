@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+
 public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
@@ -115,7 +116,17 @@ public class Login extends javax.swing.JFrame {
     private void login(MouseEvent evt){
         String username = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
+        User user = new User(username, password);
 
+        if(user.searchUser(user) == true){
+            Dashboard.main(null);
+        }else{
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame,
+                    "Please try again",
+                    "Wrong Username or Password",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
