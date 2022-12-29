@@ -37,7 +37,7 @@ public class Dashboard extends javax.swing.JFrame {
         Image c24LogoScaled = c24LogoNScaled.getScaledInstance(105,75, Image.SCALE_SMOOTH);
         c24Logo = new ImageIcon(c24LogoScaled);
 
-        jLabel2.setFont(new java.awt.Font("Serif", 0, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Serif", 0, 23)); // NOI18N
         jLabel2.setText("Hello, admin.");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

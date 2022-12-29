@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+
 
 
 public class Login extends javax.swing.JFrame {
@@ -27,7 +29,7 @@ public class Login extends javax.swing.JFrame {
         ImageIcon c24Logo = new ImageIcon("src/images/logo.png");
         //TODO Image Scale
         Image c24LogoNScaled = c24Logo.getImage();
-        Image c24LogoScaled = c24LogoNScaled.getScaledInstance(105,75, Image.SCALE_SMOOTH);
+        Image c24LogoScaled = c24LogoNScaled.getScaledInstance(103,71, Image.SCALE_SMOOTH);
         c24Logo = new ImageIcon(c24LogoScaled);
         jLabel2.setIcon(c24Logo);
 
@@ -105,22 +107,35 @@ public class Login extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+
+
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                User.adminLogin();
                 new Login().setVisible(true);
             }
         });
     }
 
+
+
     private void login(MouseEvent evt){
         String username = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
-        User user = new User(username, password);
 
-        if(user.searchUser(user) == true){
+        if(User.users.containsKey(username) == false){
+            Component frame = null;
+            JOptionPane.showMessageDialog(frame,
+                    "Please try again",
+                    "Wrong Username or Password",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        else if(User.users.get(username).equals(password)) {
+            setVisible(false);
             Dashboard.main(null);
-        }else{
+        }
+        else{
             Component frame = null;
             JOptionPane.showMessageDialog(frame,
                     "Please try again",
