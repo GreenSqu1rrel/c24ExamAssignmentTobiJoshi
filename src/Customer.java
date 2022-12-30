@@ -1,13 +1,33 @@
 public class Customer {
-    /*
-    public Customer(int id, int accountNumber, String firstName,String lastName, int dateOfBirth, String residence, String nationality, String EMail, int telephonenumber, String accountTyp, int balance, int transactions){
+
+    int id;
+    int iBAN;
+    String firstName;
+    String lastName;
+    int dateOfBirth;
+    String residence;
+    String nationality;
+    String eMail;
+    int telNumber;
+    String accountType;
+    int balance;
+    int transactions;
 
 
-
+    public Customer(int neuid,int neuiBAN,String neufirstName,String neulastName,int neudateOfBirth,String neuresidence,String neunationality,String neueMail,int neutelNumber,String neuaccountType,int neubalance,int neutransactions){
+        this.id = neuid;
+        this.iBAN = neuiBAN;
+        this.firstName = neufirstName;
+        this.lastName = neulastName;
+        this.dateOfBirth = neudateOfBirth;
+        this.residence = neuresidence;
+        this.nationality = neunationality;
+        this.eMail = neueMail;
+        this.telNumber = neutelNumber;
+        this.accountType = neuaccountType;
+        this.balance = neubalance;
+        this.transactions =neutransactions;
     }
-
-    //Note to Tobi: Bubblesort and Linearsearch
-
 
     private void sortByLastName(){
         //Bubblesort
