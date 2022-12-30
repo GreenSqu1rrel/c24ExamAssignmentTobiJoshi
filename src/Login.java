@@ -24,7 +24,8 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setText("C24 Banking Dashboard");
+        jLabel2.setText("Banking Dashboard");
+        jLabel2.setFont(new java.awt.Font("Serif", 0, 60));
         jLabel2.setBackground(Color.BLUE);
         ImageIcon c24Logo = new ImageIcon("src/images/logo.png");
         //TODO Image Scale

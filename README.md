@@ -21,3 +21,4 @@ Aus Sicht der Geschäftsführung soll eine „interne“ Anwendung implementiert
 ## Bonusaufgabe
 
 9) Es gibt einen Unit-Test
+
