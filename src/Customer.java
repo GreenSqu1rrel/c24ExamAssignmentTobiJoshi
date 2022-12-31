@@ -1,20 +1,20 @@
 public class Customer {
 
-    int id;
-    int iBAN;
+    String id;
+    String iBAN;
     String firstName;
     String lastName;
-    int dateOfBirth;
+    String dateOfBirth;
     String residence;
     String nationality;
     String eMail;
-    int telNumber;
+    String telNumber;
     String accountType;
-    int balance;
-    int transactions;
+    String balance;
+    String transactions;
 
 
-    public Customer(int neuid,int neuiBAN,String neufirstName,String neulastName,int neudateOfBirth,String neuresidence,String neunationality,String neueMail,int neutelNumber,String neuaccountType,int neubalance,int neutransactions){
+    public Customer(String neuid,String neuiBAN,String neufirstName,String neulastName,String neudateOfBirth,String neuresidence,String neunationality,String neueMail,String neutelNumber,String neuaccountType,String neubalance,String neutransactions){
         this.id = neuid;
         this.iBAN = neuiBAN;
         this.firstName = neufirstName;
@@ -26,12 +26,7 @@ public class Customer {
         this.telNumber = neutelNumber;
         this.accountType = neuaccountType;
         this.balance = neubalance;
-        this.transactions =neutransactions;
-    }
-
-    public void objectmethode(int id, int iBAN){
-        /*String i = String.valueOf(id);
-        Customer i = new Customer(iBAN);*/
+        this.transactions = neutransactions;
     }
 
 
