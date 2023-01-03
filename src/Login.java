@@ -131,7 +131,9 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
         else if(User.users.get(username).equals(password)) {
-            setVisible(false);
+            JComponent comp = (JComponent) evt.getSource();
+            Window win = SwingUtilities.getWindowAncestor(comp);
+            win.dispose();
             Dashboard.main(null);
         }
         else{
