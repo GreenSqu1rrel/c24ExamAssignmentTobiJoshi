@@ -14,11 +14,11 @@ public class Customer {
     String transactions;
 
 
-    public Customer(String neuid,String neuiBAN,String neufirstName,String neulastName,String neudateOfBirth,String neuresidence,String neunationality,String neueMail,String neutelNumber,String neuaccountType,String neubalance,String neutransactions){
+    public Customer(String neuid, String neuiBAN, String newfirstName, String newlastName, String neudateOfBirth, String neuresidence, String neunationality, String neueMail, String neutelNumber, String neuaccountType, String neubalance, String neutransactions){
         this.id = neuid;
         this.iBAN = neuiBAN;
-        this.firstName = neufirstName;
-        this.lastName = neulastName;
+        this.firstName = newfirstName;
+        this.lastName = newlastName;
         this.dateOfBirth = neudateOfBirth;
         this.residence = neuresidence;
         this.nationality = neunationality;

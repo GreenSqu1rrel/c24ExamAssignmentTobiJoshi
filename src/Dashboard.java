@@ -1,17 +1,18 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
-        readUsers();
+
         initComponents();
+        readUsers();
     }
 
 
@@ -53,36 +54,18 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel2.setText("Hello, admin.");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null, null, null, null, null}
-
-
-                },
+                new Object [][]{},
                 new String [] {
-                        "ID", "IBAN", "First Name", "Last Name", "Date of Birth", "Residence", "Nationality", "E-Mail", "Telephone Number", "Account Type", "Balance", "Transsctions"
+                        "ID", "IBAN", "First Name", "Last Name", "Date of Birth", "Residence", "Nationality", "E-Mail", "Telephone Number", "Account Type", "Balance", "Transactions"
                 }
-        ));
+
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        });
+
         jScrollPane1.setViewportView(jTable1);
 
         jLabel3.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
@@ -101,7 +84,12 @@ public class Dashboard extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
-        jButton1.setText("Go");
+        jButton1.setText("Search");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchButtonEVT(evt);
+            }
+        });
 
         jComboBox3.setFont(new java.awt.Font("Serif", 0, 12)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Smart", "Plus", "Max" }));
@@ -205,23 +193,23 @@ public class Dashboard extends javax.swing.JFrame {
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-
+                System.out.println();
                 new Dashboard().setVisible(true);
+                System.out.println();
             }
         });
     }
 
-    private void readUsers(){
-
+    public void readUsers() {
 
 
         String line = "";
-        LinkedList<Customer> customers = new LinkedList<>();
+
 
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/C24_customers.csv"));
 
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
                 String id = values[0];
                 String iBAN = values[1];
@@ -232,13 +220,31 @@ public class Dashboard extends javax.swing.JFrame {
                 String nationality = values[6];
                 String eMail = values[7];
                 String telNumber = values[8];
-                String accountType  = values[9];
+                String accountType = values[9];
                 String balance = values[10];
                 String transactions = values[11];
                 customers.add(new Customer(id, iBAN, firstName, lastName, dateOfBirth, residence, nationality, eMail, telNumber, accountType, balance, transactions));
 
-            }
 
+            }
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            Object[] row;
+            for(int i = 0; i < customers.size(); i++){
+                row = new Object[12];
+                row[0] = customers.get(i).id;
+                row[1] = customers.get(i).iBAN;
+                row[2] = customers.get(i).firstName;
+                row[3] = customers.get(i).lastName;
+                row[4] = customers.get(i).dateOfBirth;
+                row[5] = customers.get(i).residence;
+                row[6] = customers.get(i).nationality;
+                row[7] = customers.get(i).eMail;
+                row[8] = customers.get(i).telNumber;
+                row[9] = customers.get(i).accountType;
+                row[10] = customers.get(i).balance;
+                row[11] = customers.get(i).transactions;
+                model.addRow(row);
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -246,8 +252,55 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
 
+    private void searchButtonEVT(MouseEvent evt){
+
+        int f = jComboBox2.getSelectedIndex();
+        String content = jTextField1.getText();
+        switch (f){
+            case 0: searchIBAN(content); break;
+            case 1: searchLastName(content); break;
+            default: Component frame = null;
+                    JOptionPane.showMessageDialog(frame,
+                    "If this Error persists please restart the Programm.",
+                    "An Error Occured",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void searchLastName(String sLastName){
+
+        for(int i = 0; i < customers.size() - 1; i++){
+            if(sLastName.equals(customers.get(i).lastName)){
+
+                new CustomerInfo(getDataOfCustomer(i)).setVisible(true);
+                break;
+            }
+            else{
+                System.out.println("Not success " + sLastName + " not equal to " + customers.get(i).lastName);
+            }
+        }
+    }
+    private void searchIBAN(String sIBAN){
+        for(int i = 0; i < customers.size() - 1; i++){
+            if(sIBAN.equals(customers.get(i).iBAN)){
+                System.out.println("Successs");
+                break;
+            }
+            else{
+                System.out.println("Not success " + sIBAN + " not equal to " + customers.get(i).iBAN);
+            }
+        }
+    }
+
+    private String[] getDataOfCustomer(int customer){
+        String[] arrayCustomer = new String[12];
+        arrayCustomer[0] = customers.get(customer).id;
+        return arrayCustomer;
+    }
+
 
     // Variables declaration - do not modify
+    LinkedList<Customer> customers = new LinkedList<>();
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
