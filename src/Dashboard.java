@@ -379,7 +379,10 @@ public class Dashboard extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
             }
     }
-    
+
+
+
+
     private void sortByLastName(){
         LinkedList<Customer> copy = (LinkedList) customers.clone;
         copy.sort(Comparator.comparing(Customer::lastName);
