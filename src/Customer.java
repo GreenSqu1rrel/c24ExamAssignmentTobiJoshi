@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+
 public class Customer {
 
     String id;
@@ -29,6 +33,12 @@ public class Customer {
         this.transactions = neutransactions;
     }
 
+    public int getAge(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate birthdate = LocalDate.parse(dateOfBirth, formatter);
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(birthdate, currentDate).getYears();
+    }
 
 
 }

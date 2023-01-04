@@ -1,8 +1,9 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -75,7 +76,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3.setText("Sort by");
 
         jComboBox1.setFont(new Font("Serif", 0, 12)); // NOI18N
-        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] { "Last Name", "Account Type", "Balance", "Age", "Specific Account Type" }));
+        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] { "Last Name", "Account Type", "Balance", "Age", "Specific Account Type"}));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sortActionEvent(evt);
@@ -366,12 +367,13 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     private void sortButtonEVT(MouseEvent evt){
-        int i = jCombobox1.getSelectedIndex();
+        int i = jComboBox1.getSelectedIndex();
         switch (i){
-            case 0:
-            case 1:
-            case 2:
-            case 3:
+            case 0:sortByLastName(); break;
+            case 1:sortByAccountType(); break;
+            case 2:sortByBalance(); break;
+            case 3:sortByAge(); break;
+            case 4:sortBySpecificAccountType();break;
             default: Component frame = null;
                     JOptionPane.showMessageDialog(frame,
                     "If this Error persists please restart the Programm.",
@@ -384,44 +386,249 @@ public class Dashboard extends javax.swing.JFrame {
 
 
     private void sortByLastName(){
-        LinkedList<Customer> copy = (LinkedList) customers.clone;
-        copy.sort(Comparator.comparing(Customer::lastName);
-        // Delete Table Rows 
-        // Add copy sorted
-        
+        LinkedList<Customer> copy = (LinkedList) customers.clone();
+
+        for(int i = 0; i<copy.size()-1; i++) {
+            for (int j = i+1; j<copy.size(); j++) {
+                if(copy.get(i).lastName.compareTo(copy.get(j).lastName)>0) {
+                    Customer temp = copy.get(i);
+                    copy.set(i, copy.get(j));
+                    copy.set(j, temp);
+
+
+                }
+            }
+        }
+        for(int f = 0; f < copy.size(); f++){
+            System.out.println(copy.get(f).lastName);
+        }
+
+
+
+
+       // Delete Table Rows
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
+      // Add copy sorted
+        Object[] row;
+        for(int i = 0; i < copy.size(); i++){
+            row = new Object[12];
+            row[0] = copy.get(i).id;
+            row[1] = copy.get(i).iBAN;
+            row[2] = copy.get(i).firstName;
+            row[3] = copy.get(i).lastName;
+            row[4] = copy.get(i).dateOfBirth;
+            row[5] = copy.get(i).residence;
+            row[6] = copy.get(i).nationality;
+            row[7] = copy.get(i).eMail;
+            row[8] = copy.get(i).telNumber;
+            row[9] = copy.get(i).accountType;
+            row[10] = copy.get(i).balance;
+            row[11] = copy.get(i).transactions;
+            model.addRow(row);
+
+        }
     }
     
     private void sortByAccountType(){
-        LinkedList<Customer> copy = new LinkedList<Customer>;
-        for(int i = 0; i < customers.size; i++){
-            if(customers.get(i).accountType.equals("SMART"){
+        LinkedList<Customer> copy = new LinkedList<Customer>();
+        for(int i = 0; i < customers.size(); i++){
+            if(customers.get(i).accountType.equals("SMART")){
                 copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
             }
         }
-        for(int i = 0; i < customers.size; i++){
-            if(customers.get(i).accountType.equals("PLUS"){
+        for(int i = 0; i < customers.size(); i++){
+            if(customers.get(i).accountType.equals("PLUS")){
                 copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
             }
         }
-        for(int i = 0; i < customers.size; i++){
-            if(customers.get(i).accountType.equals("MAX"){
+        for(int i = 0; i < customers.size(); i++){
+            if(customers.get(i).accountType.equals("MAX")){
                 copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
             }
+        }
+        // Delete Table Rows
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
+        // Add copy sorted
+        Object[] row;
+        for(int i = 0; i < copy.size(); i++){
+            row = new Object[12];
+            row[0] = copy.get(i).id;
+            row[1] = copy.get(i).iBAN;
+            row[2] = copy.get(i).firstName;
+            row[3] = copy.get(i).lastName;
+            row[4] = copy.get(i).dateOfBirth;
+            row[5] = copy.get(i).residence;
+            row[6] = copy.get(i).nationality;
+            row[7] = copy.get(i).eMail;
+            row[8] = copy.get(i).telNumber;
+            row[9] = copy.get(i).accountType;
+            row[10] = copy.get(i).balance;
+            row[11] = copy.get(i).transactions;
+            model.addRow(row);
+
         }
     }
     
     private void sortByBalance(){
-    
+        LinkedList<Customer> copy = customers;
+        for(int i = 0; i<copy.size()-1; i++) {
+            for (int j = i+1; j<copy.size(); j++) {
+                if(copy.get(i).balance.compareTo(copy.get(j).balance)>0) {
+                    Customer temp = copy.get(i);
+                    copy.set(i, copy.get(j));
+                    copy.set(j, temp);
+
+
+                }
+            }
+        }
+        // Delete Table Rows
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
+        // Add copy sorted
+        Object[] row;
+        for(int i = 0; i < copy.size(); i++){
+            row = new Object[12];
+            row[0] = copy.get(i).id;
+            row[1] = copy.get(i).iBAN;
+            row[2] = copy.get(i).firstName;
+            row[3] = copy.get(i).lastName;
+            row[4] = copy.get(i).dateOfBirth;
+            row[5] = copy.get(i).residence;
+            row[6] = copy.get(i).nationality;
+            row[7] = copy.get(i).eMail;
+            row[8] = copy.get(i).telNumber;
+            row[9] = copy.get(i).accountType;
+            row[10] = copy.get(i).balance;
+            row[11] = copy.get(i).transactions;
+            model.addRow(row);
+
+        }
+
     }
+
     
     private void sortByAge(){
-    
+        LinkedList<Customer> copy = customers;
+
+        System.out.println("*** *** Sorting ");
+        int hi = copy.size() - 1;
+        for(int k=hi; k>0; k--){
+            for(int i = 0; i<k; i++){
+                if(copy.get(i).getAge() < copy.get(i + 1).getAge()){
+                    Customer temp = copy.get(i);
+                    copy.set(i, copy.get(i+1));
+                    copy.set(i+1, temp);
+
+                }
+            }
+        }
+
+        for(int f = 0; f < copy.size(); f++){
+            System.out.println(copy.get(f).dateOfBirth);
+        }
+
+
+        // Delete Table Rows
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
+        // Add copy sorted
+        Object[] row;
+        for(int i = 0; i < copy.size(); i++){
+            row = new Object[12];
+            row[0] = copy.get(i).id;
+            row[1] = copy.get(i).iBAN;
+            row[2] = copy.get(i).firstName;
+            row[3] = copy.get(i).lastName;
+            row[4] = copy.get(i).dateOfBirth;
+            row[5] = copy.get(i).residence;
+            row[6] = copy.get(i).nationality;
+            row[7] = copy.get(i).eMail;
+            row[8] = copy.get(i).telNumber;
+            row[9] = copy.get(i).accountType;
+            row[10] = copy.get(i).balance;
+            row[11] = copy.get(i).transactions;
+            model.addRow(row);
+
+        }
     } 
     
     private void sortBySpecificAccountType(){
-    
+
+        LinkedList<Customer> copy = new LinkedList<Customer>();
+        int z = jComboBox3.getSelectedIndex();
+        switch (z){
+            case 0: copy = getSmartAccounts(copy); break;
+            case 1: copy = getPlusAccounts(copy); break;
+            case 2: copy = getMaxAccounts(copy); break;
+        }
+
+
+        // Delete Table Rows
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
+        // Add copy sorted
+        Object[] row;
+        for(int i = 0; i < copy.size(); i++){
+            row = new Object[12];
+            row[0] = copy.get(i).id;
+            row[1] = copy.get(i).iBAN;
+            row[2] = copy.get(i).firstName;
+            row[3] = copy.get(i).lastName;
+            row[4] = copy.get(i).dateOfBirth;
+            row[5] = copy.get(i).residence;
+            row[6] = copy.get(i).nationality;
+            row[7] = copy.get(i).eMail;
+            row[8] = copy.get(i).telNumber;
+            row[9] = copy.get(i).accountType;
+            row[10] = copy.get(i).balance;
+            row[11] = copy.get(i).transactions;
+            model.addRow(row);
+
+        }
+
     }
-    
+
+
+
+    private LinkedList<Customer> getSmartAccounts(LinkedList<Customer> copy) {
+        for(int i = 0; i < customers.size(); i++){
+            if(customers.get(i).accountType.equals("SMART")){
+                copy.add(customers.get(i));
+            }
+        }
+        return copy;
+    }
+    private LinkedList<Customer> getPlusAccounts(LinkedList<Customer> copy) {
+        for(int i = 0; i < customers.size(); i++){
+            if(customers.get(i).accountType.equals("PLUS")){
+                copy.add(customers.get(i));
+            }
+        }
+        return copy;
+    }
+
+    private LinkedList<Customer> getMaxAccounts(LinkedList<Customer> copy){
+        for(int i = 0; i < customers.size(); i++){
+            if(customers.get(i).accountType.equals("MAX")){
+                copy.add(customers.get(i));
+            }
+        }
+        return copy;
+    }
+
      
     private void sortActionEvent(ActionEvent evt){
         int i = jComboBox1.getSelectedIndex();
