@@ -106,6 +106,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         jButton2.setFont(new Font("Serif", 0, 12)); // NOI18N
         jButton2.setText("Sort");
+        jButton2.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent evt){
+                sortButtonEVT(evt);
+            }
+        }); 
 
         jButton3.setFont(new Font("Serif", 0, 24)); // NOI18N
         jButton3.setText("Logout");
@@ -359,6 +364,62 @@ public class Dashboard extends javax.swing.JFrame {
         arrayCustomer[11] = customers.get(customer).id;
         return arrayCustomer;
     }
+    
+    private void sortButtonEVT(MouseEvent evt){
+        int i = jCombobox1.getSelectedIndex();
+        switch (i){
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            default: Component frame = null;
+                    JOptionPane.showMessageDialog(frame,
+                    "If this Error persists please restart the Programm.",
+                    "An Error Occured",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
+    private void sortByLastName(){
+        LinkedList<Customer> copy = (LinkedList) customers.clone;
+        copy.sort(Comparator.comparing(Customer::lastName);
+        // Delete Table Rows 
+        // Add copy sorted
+        
+    }
+    
+    private void sortByAccountType(){
+        LinkedList<Customer> copy = new LinkedList<Customer>;
+        for(int i = 0; i < customers.size; i++){
+            if(customers.get(i).accountType.equals("SMART"){
+                copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
+            }
+        }
+        for(int i = 0; i < customers.size; i++){
+            if(customers.get(i).accountType.equals("PLUS"){
+                copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
+            }
+        }
+        for(int i = 0; i < customers.size; i++){
+            if(customers.get(i).accountType.equals("MAX"){
+                copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
+            }
+        }
+    }
+    
+    private void sortByBalance(){
+    
+    }
+    
+    private void sortByAge(){
+    
+    } 
+    
+    private void sortBySpecificAccountType(){
+    
+    }
+    
+     
     private void sortActionEvent(ActionEvent evt){
         int i = jComboBox1.getSelectedIndex();
         switch (i){
