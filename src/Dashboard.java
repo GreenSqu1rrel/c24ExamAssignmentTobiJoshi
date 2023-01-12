@@ -1,9 +1,7 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,19 +13,13 @@ public class Dashboard extends javax.swing.JFrame {
 
         initComponents();
         readUsers();
-        getPercent();
+        getData();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="init">
 
-    /*
-
-     */
-
-
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
+        getContentPane().setBackground(Color.getColor("DCDCDC"));
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
         jScrollPane1 = new JScrollPane();
@@ -130,7 +122,19 @@ public class Dashboard extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jTextArea1.setTabSize(6);
         jTextArea1.setEditable(false);
+        jTextArea1.setFocusTraversalKeysEnabled(true);
+        jTextArea1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                int keycode = e.getKeyCode();
+                if(keycode == 153){
+                    readUsers();
+                }
+            }
+        });
         jScrollPane2.setViewportView(jTextArea1);
+
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -235,12 +239,12 @@ public class Dashboard extends javax.swing.JFrame {
     private void readUsers() {
 
 
-        String line = "";
+        String line;
 
 
         try {
             BufferedReader br = new BufferedReader(new FileReader("src/C24_customers.csv"));
-
+            br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
                 String id = values[0];
@@ -259,25 +263,9 @@ public class Dashboard extends javax.swing.JFrame {
 
 
             }
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            Object[] row;
-            for(int i = 0; i < customers.size(); i++){
-                row = new Object[12];
-                row[0] = customers.get(i).id;
-                row[1] = customers.get(i).iBAN;
-                row[2] = customers.get(i).firstName;
-                row[3] = customers.get(i).lastName;
-                row[4] = customers.get(i).dateOfBirth;
-                row[5] = customers.get(i).residence;
-                row[6] = customers.get(i).nationality;
-                row[7] = customers.get(i).eMail;
-                row[8] = customers.get(i).telNumber;
-                row[9] = customers.get(i).accountType;
-                row[10] = customers.get(i).balance;
-                row[11] = customers.get(i).transactions;
-                model.addRow(row);
+            LinkedList<Customer> copy = (LinkedList<Customer>) customers.clone();
+            populateTable(copy);
 
-            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -285,7 +273,30 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }
 
-    private void getPercent(){
+    private void populateTable(LinkedList<Customer> cust){
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        Object[] row;
+        for(int i = 0; i < customers.size(); i++){
+            row = new Object[12];
+            row[0] = cust.get(i).id;
+            row[1] = cust.get(i).iBAN;
+            row[2] = cust.get(i).firstName;
+            row[3] = cust.get(i).lastName;
+            row[4] = cust.get(i).dateOfBirth;
+            row[5] = cust.get(i).residence;
+            row[6] = cust.get(i).nationality;
+            row[7] = cust.get(i).eMail;
+            row[8] = cust.get(i).telNumber;
+            row[9] = cust.get(i).accountType;
+            row[10] = cust.get(i).balance;
+            row[11] = cust.get(i).transactions;
+            model.addRow(row);
+
+        }
+    }
+
+    private void getData(){
+        //Percentage
         double allUsers = 0;
         double smartUsers = 0;
         double plusUsers = 0;
@@ -305,9 +316,37 @@ public class Dashboard extends javax.swing.JFrame {
         double perMax = maxUsers / allUsers;
         perPlus = Math.round(perPlus * 100);
         perMax = Math.round(perMax * 100);
+
+        int incomeSmart = 0;
+        int incomePlus = 0;
+        int incomeMax = 0;
+        //Income of Account Type
+        for(int i = 0; i < customers.size(); i++){
+            switch (customers.get(i).accountType){
+                case "SMART":
+                    incomeSmart += Integer.parseInt(customers.get(i).balance);
+                    break;
+                case "PLUS":
+                    incomePlus += Integer.parseInt(customers.get(i).balance);
+                    break;
+                case "MAX":
+                    incomeMax += Integer.parseInt(customers.get(i).balance);
+                    break;
+                default:
+                    Component frame = null;
+                    JOptionPane.showMessageDialog(frame,
+                            "If this Error persists please restart the Programm.",
+                            "An Error Occured",
+                            JOptionPane.ERROR_MESSAGE);
+            }
+        }
         jTextArea1.append("Statistics: \n");
+        jTextArea1.append("Smart: " + perMax + "%\n");
+        jTextArea1.append("Balance per Account: " + incomeSmart + " €\n");
         jTextArea1.append("Plus: " + perPlus + "%\n");
+        jTextArea1.append("Balance per Account: " + incomePlus + " €\n");
         jTextArea1.append("Max: " + perMax + "%\n");
+        jTextArea1.append("Balance per Account: " + incomeMax + " €\n");
     }
 
     private void searchButtonEVT(MouseEvent evt){
@@ -317,8 +356,9 @@ public class Dashboard extends javax.swing.JFrame {
         switch (f){
             case 0: searchIBAN(content); break;
             case 1: searchLastName(content); break;
-            default: Component frame = null;
-                    JOptionPane.showMessageDialog(frame,
+            default:
+                Component frame = null;
+                JOptionPane.showMessageDialog(frame,
                     "If this Error persists please restart the Programm.",
                     "An Error Occured",
                     JOptionPane.ERROR_MESSAGE);
@@ -333,7 +373,7 @@ public class Dashboard extends javax.swing.JFrame {
                 break;
             }
             else{
-                System.out.println("Not success " + sLastName + " not equal to " + customers.get(i).lastName);
+                System.out.println("Not successful. " + sLastName + " not equal to " + customers.get(i).lastName);
             }
         }
     }
@@ -344,7 +384,7 @@ public class Dashboard extends javax.swing.JFrame {
                 break;
             }
             else{
-                System.out.println("Not success " + sIBAN + " not equal to " + customers.get(i).iBAN);
+                System.out.println("Not successful. " + sIBAN + " not equal to " + customers.get(i).iBAN);
             }
         }
     }
@@ -399,37 +439,8 @@ public class Dashboard extends javax.swing.JFrame {
                 }
             }
         }
-        for(int f = 0; f < copy.size(); f++){
-            System.out.println(copy.get(f).lastName);
-        }
+        populateTable(copy);
 
-
-
-
-       // Delete Table Rows
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        while(model.getRowCount() > 0){
-            model.removeRow(0);
-        }
-      // Add copy sorted
-        Object[] row;
-        for(int i = 0; i < copy.size(); i++){
-            row = new Object[12];
-            row[0] = copy.get(i).id;
-            row[1] = copy.get(i).iBAN;
-            row[2] = copy.get(i).firstName;
-            row[3] = copy.get(i).lastName;
-            row[4] = copy.get(i).dateOfBirth;
-            row[5] = copy.get(i).residence;
-            row[6] = copy.get(i).nationality;
-            row[7] = copy.get(i).eMail;
-            row[8] = copy.get(i).telNumber;
-            row[9] = copy.get(i).accountType;
-            row[10] = copy.get(i).balance;
-            row[11] = copy.get(i).transactions;
-            model.addRow(row);
-
-        }
     }
     
     private void sortByAccountType(){
@@ -449,30 +460,8 @@ public class Dashboard extends javax.swing.JFrame {
                 copy.add(new Customer(customers.get(i).id, customers.get(i).iBAN, customers.get(i).firstName, customers.get(i).lastName, customers.get(i).dateOfBirth, customers.get(i).residence, customers.get(i).nationality, customers.get(i).eMail, customers.get(i).telNumber, customers.get(i).accountType, customers.get(i).balance, customers.get(i).transactions));
             }
         }
-        // Delete Table Rows
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        while(model.getRowCount() > 0){
-            model.removeRow(0);
-        }
-        // Add copy sorted
-        Object[] row;
-        for(int i = 0; i < copy.size(); i++){
-            row = new Object[12];
-            row[0] = copy.get(i).id;
-            row[1] = copy.get(i).iBAN;
-            row[2] = copy.get(i).firstName;
-            row[3] = copy.get(i).lastName;
-            row[4] = copy.get(i).dateOfBirth;
-            row[5] = copy.get(i).residence;
-            row[6] = copy.get(i).nationality;
-            row[7] = copy.get(i).eMail;
-            row[8] = copy.get(i).telNumber;
-            row[9] = copy.get(i).accountType;
-            row[10] = copy.get(i).balance;
-            row[11] = copy.get(i).transactions;
-            model.addRow(row);
 
-        }
+        populateTable(copy);
     }
     
     private void sortByBalance(){
@@ -488,30 +477,7 @@ public class Dashboard extends javax.swing.JFrame {
                 }
             }
         }
-        // Delete Table Rows
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        while(model.getRowCount() > 0){
-            model.removeRow(0);
-        }
-        // Add copy sorted
-        Object[] row;
-        for(int i = 0; i < copy.size(); i++){
-            row = new Object[12];
-            row[0] = copy.get(i).id;
-            row[1] = copy.get(i).iBAN;
-            row[2] = copy.get(i).firstName;
-            row[3] = copy.get(i).lastName;
-            row[4] = copy.get(i).dateOfBirth;
-            row[5] = copy.get(i).residence;
-            row[6] = copy.get(i).nationality;
-            row[7] = copy.get(i).eMail;
-            row[8] = copy.get(i).telNumber;
-            row[9] = copy.get(i).accountType;
-            row[10] = copy.get(i).balance;
-            row[11] = copy.get(i).transactions;
-            model.addRow(row);
-
-        }
+        populateTable(copy);
 
     }
 
@@ -536,31 +502,7 @@ public class Dashboard extends javax.swing.JFrame {
             System.out.println(copy.get(f).dateOfBirth);
         }
 
-
-        // Delete Table Rows
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        while(model.getRowCount() > 0){
-            model.removeRow(0);
-        }
-        // Add copy sorted
-        Object[] row;
-        for(int i = 0; i < copy.size(); i++){
-            row = new Object[12];
-            row[0] = copy.get(i).id;
-            row[1] = copy.get(i).iBAN;
-            row[2] = copy.get(i).firstName;
-            row[3] = copy.get(i).lastName;
-            row[4] = copy.get(i).dateOfBirth;
-            row[5] = copy.get(i).residence;
-            row[6] = copy.get(i).nationality;
-            row[7] = copy.get(i).eMail;
-            row[8] = copy.get(i).telNumber;
-            row[9] = copy.get(i).accountType;
-            row[10] = copy.get(i).balance;
-            row[11] = copy.get(i).transactions;
-            model.addRow(row);
-
-        }
+        populateTable(copy);
     } 
     
     private void sortBySpecificAccountType(){
@@ -574,30 +516,7 @@ public class Dashboard extends javax.swing.JFrame {
         }
 
 
-        // Delete Table Rows
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        while(model.getRowCount() > 0){
-            model.removeRow(0);
-        }
-        // Add copy sorted
-        Object[] row;
-        for(int i = 0; i < copy.size(); i++){
-            row = new Object[12];
-            row[0] = copy.get(i).id;
-            row[1] = copy.get(i).iBAN;
-            row[2] = copy.get(i).firstName;
-            row[3] = copy.get(i).lastName;
-            row[4] = copy.get(i).dateOfBirth;
-            row[5] = copy.get(i).residence;
-            row[6] = copy.get(i).nationality;
-            row[7] = copy.get(i).eMail;
-            row[8] = copy.get(i).telNumber;
-            row[9] = copy.get(i).accountType;
-            row[10] = copy.get(i).balance;
-            row[11] = copy.get(i).transactions;
-            model.addRow(row);
-
-        }
+        populateTable(copy);
 
     }
 

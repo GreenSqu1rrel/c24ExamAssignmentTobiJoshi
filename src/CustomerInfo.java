@@ -12,7 +12,7 @@ public class CustomerInfo extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents(String[] dataOfCustomer) {
-
+        getContentPane().setBackground(Color.getColor("DCDCDC"));
         lIcon = new javax.swing.JLabel();
         lLastName = new javax.swing.JLabel();
         lFirstName = new javax.swing.JLabel();
@@ -145,6 +145,7 @@ public class CustomerInfo extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Serif", 0, 24)); // NOI18N
         jLabel10.setText("Customer Info");
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

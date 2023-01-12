@@ -33,7 +33,7 @@ public class Customer {
         this.transactions = neutransactions;
     }
 
-    public int getAge(){
+    int getAge(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate birthdate = LocalDate.parse(dateOfBirth, formatter);
         LocalDate currentDate = LocalDate.now();

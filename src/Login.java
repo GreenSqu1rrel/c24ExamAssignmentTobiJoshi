@@ -13,7 +13,7 @@ public class Login extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="">
     private void initComponents() {
-        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setBackground(Color.getColor("DCDCDC"));
 
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -123,26 +123,7 @@ public class Login extends javax.swing.JFrame {
         String username = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
 
-        if(User.users.containsKey(username) == false){
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame,
-                    "Please try again",
-                    "Wrong Username or Password",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-        else if(User.users.get(username).equals(password)) {
-            JComponent comp = (JComponent) evt.getSource();
-            Window win = SwingUtilities.getWindowAncestor(comp);
-            win.dispose();
-            Dashboard.main(null);
-        }
-        else{
-            Component frame = null;
-            JOptionPane.showMessageDialog(frame,
-                    "Please try again",
-                    "Wrong Username or Password",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        User.compareUserPass(evt, username, password);
 
     }
 
