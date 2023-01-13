@@ -128,9 +128,13 @@ public class Dashboard extends javax.swing.JFrame {
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 int keycode = e.getKeyCode();
+                System.out.println(keycode);
                 if(keycode == 153){
-                    readUsers();
-                }
+                    JComponent comp = (JComponent) e.getSource();
+                    Window win = SwingUtilities.getWindowAncestor(comp);
+                    win.dispose();
+                    main(null);
+                }//10
             }
         });
         jScrollPane2.setViewportView(jTextArea1);
@@ -276,6 +280,9 @@ public class Dashboard extends javax.swing.JFrame {
     private void populateTable(LinkedList<Customer> cust){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         Object[] row;
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
         for(int i = 0; i < customers.size(); i++){
             row = new Object[12];
             row[0] = cust.get(i).id;
