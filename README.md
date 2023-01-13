@@ -31,4 +31,5 @@ Open the Pictures, which are found in src/readme.
 ### 1) Login.java (Image 1)  
 You can type in the username (**admin**) and password (**admin**). The Class Login.java calls the Method compareUserPass in the Class User. If the Password is wrong the user will get a notification, that the username or password is wrong. For security reasons the user will not be told which of the two is wrong (Image 2).
 ### 2) Dashboard.java (Image 3)
-If the correct Login credentials are given, the Login Window will be disposed (The Task will be Closed completely and reopened if needed in a completely new instance) and the Dashboard.java main Class will be launched. If the List is somehow corrupted you can relaunch the Dashboard with "<" key.  
+If the correct Login credentials are given, the Login Window will be disposed (The Task will be Closed completely and reopened if needed in a completely new instance) and the Dashboard.java main Class will be launched.   
+If the List is somehow corrupted you can relaunch the Dashboard with "<" key.

@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-
+import java.security.Key;
 
 
 public class Login extends javax.swing.JFrame {
@@ -33,6 +34,22 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setIcon(c24Logo);
 
         jLabel1.setText("Username");
+
+        jTextField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                login2(e);
+            }
+        });
+
+        jPasswordField1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                login2(e);
+            }
+        });
 
         jLabel3.setText("Password");
 
@@ -118,13 +135,23 @@ public class Login extends javax.swing.JFrame {
     }
 
 
-
+    //Login via button
     private void login(MouseEvent evt){
         String username = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
 
-        User.compareUserPass(evt, username, password);
+        User.compareUserPass1(evt, username, password);
 
+    }
+
+    //Login via enter
+    private void login2(KeyEvent e){
+        int keycode = e.getKeyCode();
+        if(keycode == 10){
+            String username = jTextField1.getText();
+            String password = String.valueOf(jPasswordField1.getPassword());
+            User.compareUserPass2(e, username, password);
+        }
     }
 
     // Variables declaration - do not modify
