@@ -26,7 +26,7 @@ public class User {
             JComponent comp = (JComponent) evt.getSource();
             Window win = SwingUtilities.getWindowAncestor(comp);
             win.dispose();
-            Dashboard.main(null);
+            Dashboard.main(uname,null);
         }
         else{
             Component frame = null;
@@ -48,7 +48,7 @@ public class User {
             JComponent comp = (JComponent) evt.getSource();
             Window win = SwingUtilities.getWindowAncestor(comp);
             win.dispose();
-            Dashboard.main(null);
+            Dashboard.main(uname, null);
         }
         else{
             Component frame = null;

@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 public class Dashboard extends javax.swing.JFrame {
-    public Dashboard() {
+    public Dashboard(String uname) {
 
-        initComponents();
+        initComponents(uname);
         readUsers();
         getData();
     }
 
     // <editor-fold defaultstate="collapsed" desc="init">
 
-    private void initComponents() {
+    private void initComponents(String uname) {
         getContentPane().setBackground(Color.getColor("DCDCDC"));
         jLabel1 = new JLabel();
         jLabel2 = new JLabel();
@@ -47,7 +47,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setIcon(c24Logo);
 
         jLabel2.setFont(new Font("Serif", 0, 24)); // NOI18N
-        jLabel2.setText("Hello, admin.");
+        jLabel2.setText("Hello, " + uname + ".");
 
         jTable1.setModel(new DefaultTableModel(
                 new Object [][]{},
@@ -133,7 +133,7 @@ public class Dashboard extends javax.swing.JFrame {
                     JComponent comp = (JComponent) e.getSource();
                     Window win = SwingUtilities.getWindowAncestor(comp);
                     win.dispose();
-                    main(null);
+                    main(uname, null);
                 }//10
             }
         });
@@ -213,7 +213,7 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String uname, String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -234,7 +234,7 @@ public class Dashboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 System.out.println();
-                new Dashboard().setVisible(true);
+                new Dashboard(uname).setVisible(true);
                 System.out.println();
             }
         });
@@ -347,6 +347,7 @@ public class Dashboard extends javax.swing.JFrame {
                             JOptionPane.ERROR_MESSAGE);
             }
         }
+        int incomeTotal = incomeSmart + incomePlus + incomeMax;
         jTextArea1.append("Statistics: \n");
         jTextArea1.append("Smart: " + perMax + "%\n");
         jTextArea1.append("Balance per Account: " + incomeSmart + " €\n");
@@ -354,6 +355,7 @@ public class Dashboard extends javax.swing.JFrame {
         jTextArea1.append("Balance per Account: " + incomePlus + " €\n");
         jTextArea1.append("Max: " + perMax + "%\n");
         jTextArea1.append("Balance per Account: " + incomeMax + " €\n");
+        jTextArea1.append("Total Balance: " + incomeTotal + " €\n");
     }
 
     private void searchButtonEVT(MouseEvent evt){
