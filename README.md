@@ -31,7 +31,7 @@ Open the Pictures, which are found in src/readme.
 You can type in the username (**admin**) and password (**admin**). The Class Login.java calls the Method compareUserPass in the Class User. If the Password is wrong the user will get a notification, that the username or password is wrong. For security reasons the user will not be told which of the two is wrong (Image 2). There are two ways to log in. First of all you can press the login button, which triggers a Mouseevent, which triggers login1. Secondly you can press *Enter*, and it will trigger login2. We had to split the events, because the event property of the Key listener is different to the one of the Button.
 ### 2) Dashboard.java (Image 3)
 If the correct Login credentials are given, the Login Window will be disposed (The Window will be Closed completely) and the Dashboard.java main Class will be launched.   
-When launching the Dashboard class runs the following methods, which create the gui (initcomponents), read the CSV with a bufferedreader (readUsers) and get the Stats. Those are populated in the specific places, where the need to be put.   
+When launching the Dashboard class runs the following methods, which create the gui (initcomponents), read the CSV with a bufferedreader (readUsers) and get the Stats. Those are populated with the data.   
 When the List is somehow getting corrupted you can relaunch the Dashboard with "**<**" key.  
 The CSV is read in by, buffering through the list and reading the data into a linked-list, of the type Customer.  
 The user has the option to logout (2), which disposes the instance of Dashboard and relaunches the Login window.  
